@@ -1,0 +1,13 @@
+#!/bin/bash -eu
+
+if [ -n "$1" ]; then
+    num_processes=$1
+else
+    num_processes=1
+fi
+
+for ((i = 1; i <= $num_processes; i++)); do
+    php consume_jobs.php --type email_validation &
+done
+wait
+

@@ -1,0 +1,15 @@
+#!/bin/bash -eu
+
+# Prototype
+
+coefficient=500
+
+
+COUNT_EMAIL_VALIDATE_JOBS=$(php get_ready_jobs.php --type email_validation)
+COUNT_EMAIL_SEND_JOBS=$(php get_ready_jobs.php --type email_sub_exp)
+
+NUM_EMAIL_VALIDATE=$(printf "%.0f" "$(printf "%.2f" $(($COUNT_EMAIL_VALIDATE_JOBS / $coefficient)))")
+NUM_EMAIL_SEND=$(printf "%.0f" "$(printf "%.2f" $(($COUNT_EMAIL_SEND_JOBS / $coefficient)))")
+
+echo "* * * * * bash /path_to/consume-email-validation $NUM_EMAIL_VALIDATE" >> /etc/crontab
+echo "* * * * * php /path_to/consume-email-sending $NUM_EMAIL_SEND" >> /etc/crontab
